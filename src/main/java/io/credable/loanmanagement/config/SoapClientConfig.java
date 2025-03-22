@@ -1,5 +1,6 @@
 package io.credable.loanmanagement.config;
 
+import org.apache.http.auth.UsernamePasswordCredentials;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -64,7 +65,7 @@ public class SoapClientConfig {
 
     private HttpComponentsMessageSender httpComponentsMessageSender(String username, String password) {
         HttpComponentsMessageSender messageSender = new HttpComponentsMessageSender();
-        messageSender.setCredentials(username, password);
+        messageSender.setCredentials(new UsernamePasswordCredentials(username, password));
         return messageSender;
     }
 } 

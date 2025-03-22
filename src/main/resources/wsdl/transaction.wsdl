@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:tns="http://credable.io/transaction"
+                  targetNamespace="http://credable.io/transaction">
+
+    <wsdl:types>
+        <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                   targetNamespace="http://credable.io/transaction">
+            
+            <xs:element name="getTransactionsRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="customerNumber" type="xs:string"/>
+                        <xs:element name="startDate" type="xs:dateTime" minOccurs="0"/>
+                        <xs:element name="endDate" type="xs:dateTime" minOccurs="0"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            
+            <xs:element name="getTransactionsResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="transaction" maxOccurs="unbounded" minOccurs="0">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="transactionId" type="xs:string"/>
+                                    <xs:element name="customerNumber" type="xs:string"/>
+                                    <xs:element name="amount" type="xs:decimal"/>
+                                    <xs:element name="currency" type="xs:string"/>
+                                    <xs:element name="transactionDate" type="xs:dateTime"/>
+                                    <xs:element name="status" type="xs:string"/>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+    </wsdl:types>
+
+    <wsdl:message name="getTransactionsRequest">
+        <wsdl:part name="parameters" element="tns:getTransactionsRequest"/>
+    </wsdl:message>
+
+    <wsdl:message name="getTransactionsResponse">
+        <wsdl:part name="parameters" element="tns:getTransactionsResponse"/>
+    </wsdl:message>
+
+    <wsdl:portType name="TransactionPort">
+        <wsdl:operation name="getTransactions">
+            <wsdl:input message="tns:getTransactionsRequest"/>
+            <wsdl:output message="tns:getTransactionsResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+
+    <wsdl:binding name="TransactionBinding" type="tns:TransactionPort">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="getTransactions">
+            <soap:operation soapAction=""/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+
+    <wsdl:service name="TransactionService">
+        <wsdl:port name="TransactionPort" binding="tns:TransactionBinding">
+            <soap:address location="https://trxapitest.credable.io/service/transaction"/>
+        </wsdl:port>
+    </wsdl:service>
+
+</wsdl:definitions> 
