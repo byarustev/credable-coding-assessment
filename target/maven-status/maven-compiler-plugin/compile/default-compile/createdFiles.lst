@@ -1,7 +1,0 @@
-io/credable/loanmanagement/client/wsdl/GetCustomerResponse.class
-io/credable/loanmanagement/client/TransactionClient.class
-io/credable/loanmanagement/exception/ScoringException.class
-io/credable/loanmanagement/client/wsdl/GetTransactionsResponse.class
-io/credable/loanmanagement/client/wsdl/GetTransactionsResponse$Transaction.class
-io/credable/loanmanagement/controller/LoanController.class
-io/credable/loanmanagement/client/wsdl/package-info.class

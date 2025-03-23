@@ -107,6 +107,8 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -115,7 +117,6 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
-                    <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
             <plugin>
@@ -124,30 +125,25 @@
                 <version>0.14.0</version>
                 <executions>
                     <execution>
-                        <id>xjc</id>
                         <goals>
                             <goal>generate</goal>
                         </goals>
-                        <configuration>
-                            <schemaLanguage>WSDL</schemaLanguage>
-                            <schemas>
-                                <schema>
-                                    <fileset>
-                                        <directory>${project.basedir}/src/main/resources/wsdl</directory>
-                                        <includes>
-                                            <include>*.wsdl</include>
-                                        </includes>
-                                    </fileset>
-                                </schema>
-                            </schemas>
-                            <generatePackage>io.credable.loanmanagement.client.wsdl</generatePackage>
-                            <generateDirectory>${project.build.directory}/generated-sources/xjc</generateDirectory>
-                            <episode>true</episode>
-                            <verbose>true</verbose>
-                            <extension>true</extension>
-                        </configuration>
                     </execution>
                 </executions>
+                <configuration>
+                    <schemaLanguage>WSDL</schemaLanguage>
+                    <generatePackage>io.credable.loanmanagement.client.wsdl</generatePackage>
+                    <schemas>
+                        <schema>
+                            <fileset>
+                                <directory>${basedir}/src/main/resources/wsdl</directory>
+                                <includes>
+                                    <include>*.wsdl</include>
+                                </includes>
+                            </fileset>
+                        </schema>
+                    </schemas>
+                </configuration>
             </plugin>
         </plugins>
     </build>

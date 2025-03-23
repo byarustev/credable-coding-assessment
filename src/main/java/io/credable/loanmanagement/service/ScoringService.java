@@ -27,6 +27,9 @@ public class ScoringService {
     @Value("${scoring.retry-delay}")
     private long retryDelay;
 
+    @Value("${scoring.client-token}")
+    private String clientToken;
+
     private final RestTemplate restTemplate;
     private final LoanApplicationRepository loanApplicationRepository;
 
@@ -111,7 +114,7 @@ public class ScoringService {
 
     private HttpEntity<Void> createHttpEntity() {
         HttpHeaders headers = new HttpHeaders();
-        headers.set("client-token", "your-client-token"); // TODO: Configure client token
+        headers.set("client-token", clientToken);
         return new HttpEntity<>(headers);
     }
 
