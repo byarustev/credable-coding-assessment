@@ -1,6 +1,8 @@
 # Project guide documentation
 guide/
 
+.env
+.vscode/
 # Maven
 target/
 *.jar

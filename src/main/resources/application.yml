@@ -2,39 +2,39 @@ spring:
   application:
     name: loan-management
   datasource:
-    url: jdbc:h2:mem:loandb
-    username: sa
-    password: password
+    url: ${SPRING_DATASOURCE_URL:jdbc:h2:mem:loandb}
+    username: ${SPRING_DATASOURCE_USERNAME:sa}
+    password: ${SPRING_DATASOURCE_PASSWORD:password}
     driverClassName: org.h2.Driver
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: update
-    show-sql: true
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:update}
+    show-sql: ${SPRING_JPA_SHOW_SQL:true}
   h2:
     console:
-      enabled: true
+      enabled: ${SPRING_H2_CONSOLE_ENABLED:true}
       path: /h2-console
 
 server:
-  port: 8080
+  port: ${SERVER_PORT:8080}
 
 # CBS Integration Configuration
 cbs:
   kyc:
-    url: https://kycapitest.credable.io/service/customerWsdl.wsdl
-    username: admin
-    password: pwd123
+    url: ${CBS_KYC_URL:https://kycapitest.credable.io/service/customerWsdl.wsdl}
+    username: ${CBS_KYC_USERNAME:admin}
+    password: ${CBS_KYC_PASSWORD:pwd123}
   transaction:
-    url: https://trxapitest.credable.io/service/transactionWsdl.wsdl
-    username: admin
-    password: pwd123
+    url: ${CBS_TRX_URL:https://trxapitest.credable.io/service/transactionWsdl.wsdl}
+    username: ${CBS_TRX_USERNAME:admin}
+    password: ${CBS_TRX_PASSWORD:pwd123}
 
 # Scoring Engine Configuration
 scoring:
-  base-url: https://scoringtest.credable.io/api/v1
-  max-retries: 3
-  retry-delay: 1000 # in milliseconds
+  base-url: ${SCORING_BASE_URL:https://scoringtest.credable.io/api/v1}
+  max-retries: ${SCORING_MAX_RETRIES:3}
+  retry-delay: ${SCORING_RETRY_DELAY:1000}
   client-token: ${SCORING_CLIENT_TOKEN:your-client-token}
 
 # Security Configuration
