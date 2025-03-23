@@ -1,7 +1,7 @@
 package io.credable.loanmanagement.client;
 
-import io.credable.loanmanagement.client.wsdl.GetCustomerRequest;
-import io.credable.loanmanagement.client.wsdl.GetCustomerResponse;
+import io.credable.loanmanagement.client.wsdl.CustomerRequest;
+import io.credable.loanmanagement.client.wsdl.CustomerResponse;
 import io.credable.loanmanagement.exception.CbsIntegrationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,12 +24,12 @@ public class KycClient {
      * @return customer information response
      * @throws CbsIntegrationException if there's an error calling the CBS
      */
-    public GetCustomerResponse getCustomerInfo(String customerNumber) {
+    public CustomerResponse getCustomerInfo(String customerNumber) {
         try {
             log.info("Fetching customer info for customer number: {}", customerNumber);
-            GetCustomerRequest request = new GetCustomerRequest();
+            CustomerRequest request = new CustomerRequest();
             request.setCustomerNumber(customerNumber);
-            return (GetCustomerResponse) webServiceTemplate.marshalSendAndReceive(request);
+            return (CustomerResponse) webServiceTemplate.marshalSendAndReceive(request);
         } catch (Exception e) {
             log.error("Error fetching customer info for customer number: {}", customerNumber, e);
             throw new CbsIntegrationException("Error fetching customer info", e);

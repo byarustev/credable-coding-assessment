@@ -1,7 +1,7 @@
 package io.credable.loanmanagement.service;
 
 import io.credable.loanmanagement.client.KycClient;
-import io.credable.loanmanagement.client.wsdl.GetCustomerResponse;
+import io.credable.loanmanagement.client.wsdl.CustomerResponse;
 import io.credable.loanmanagement.exception.CbsIntegrationException;
 import io.credable.loanmanagement.model.Customer;
 import io.credable.loanmanagement.repository.CustomerRepository;
@@ -34,7 +34,7 @@ public class CustomerService {
         log.info("Processing subscription for customer: {}", customerNumber);
         
         // Get customer information from CBS
-        GetCustomerResponse kycResponse = kycClient.getCustomerInfo(customerNumber);
+        CustomerResponse kycResponse = kycClient.getCustomerInfo(customerNumber);
         
         // Create or update customer record
         Customer customer = customerRepository.findById(customerNumber)
@@ -42,10 +42,10 @@ public class CustomerService {
         
         // Update customer information
         customer.setCustomerNumber(customerNumber);
-        customer.setFirstName(kycResponse.getFirstName());
-        customer.setLastName(kycResponse.getLastName());
-        customer.setPhoneNumber(kycResponse.getPhoneNumber());
-        customer.setEmail(kycResponse.getEmail());
+        customer.setFirstName(kycResponse.getCustomer().getFirstName());
+        customer.setLastName(kycResponse.getCustomer().getLastName());
+        customer.setPhoneNumber(kycResponse.getCustomer().getMobile());
+        customer.setEmail(kycResponse.getCustomer().getEmail());
         customer.setSubscribed(true);
         
         // Save customer
@@ -61,7 +61,7 @@ public class CustomerService {
      * @return true if customer exists and is subscribed
      */
     public boolean isCustomerSubscribed(String customerNumber) {
-        return customerRepository.existsByCustomerNumberAndIsSubscribedTrue(customerNumber);
+        return customerRepository.existsByCustomerNumberAndSubscribedTrue(customerNumber);
     }
 
     /**

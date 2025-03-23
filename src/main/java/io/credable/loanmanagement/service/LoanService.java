@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,9 +52,7 @@ public class LoanService {
         Optional<LoanApplication> existingLoan = loanApplicationRepository
                 .findFirstByCustomer_CustomerNumberAndStatusNotInOrderByCreatedAtDesc(
                     customerNumber,
-                    LoanStatus.APPROVED,
-                    LoanStatus.REJECTED,
-                    LoanStatus.FAILED
+                    Arrays.asList(LoanStatus.APPROVED, LoanStatus.REJECTED, LoanStatus.FAILED)
                 );
         
         if (existingLoan.isPresent()) {
@@ -86,42 +85,34 @@ public class LoanService {
     public LoanApplication processScoringResult(String token) {
         log.info("Processing scoring result for token: {}", token);
         
-        LoanApplication loanApplication = loanApplicationRepository
-                .findByStatusAndScoringToken(LoanStatus.SCORING_IN_PROGRESS, token)
-                .orElseThrow(() -> new LoanApplicationException("No active loan application found for token: " + token));
+        // Find loan application by token
+        LoanApplication application = loanApplicationRepository
+                .findByStatusAndScoringToken(LoanStatus.PENDING, token)
+                .orElseThrow(() -> new LoanApplicationException("Invalid scoring token"));
         
-        try {
-            ScoreResult scoreResult = scoringService.queryScore(token);
-            
-            // Update loan application with score result
-            loanApplication.setCreditScore(scoreResult.getScore());
-            
-            // Process loan decision based on score and limit
-            if (scoreResult.getScore() >= 700 && scoreResult.getLimit() != null) {
-                BigDecimal approvedAmount = BigDecimal.valueOf(scoreResult.getLimit());
-                if (approvedAmount.compareTo(loanApplication.getRequestedAmount()) >= 0) {
-                    loanApplication.setStatus(LoanStatus.APPROVED);
-                    loanApplication.setApprovedAmount(loanApplication.getRequestedAmount());
-                } else {
-                    loanApplication.setStatus(LoanStatus.APPROVED);
-                    loanApplication.setApprovedAmount(approvedAmount);
-                }
-            } else {
-                loanApplication.setStatus(LoanStatus.REJECTED);
-                loanApplication.setRejectionReason("Credit score too low or limit not available");
-            }
-            
-        } catch (Exception e) {
-            log.error("Error processing scoring result", e);
-            loanApplication.setStatus(LoanStatus.FAILED);
-            loanApplication.setRejectionReason("Error processing scoring result");
+        // Get scoring result
+        ScoreResult result = scoringService.queryScore(token);
+        
+        // Update loan application based on score
+        application.setCreditScore(result.getScore());
+        if (result.getScore() >= 700) {
+            application.setStatus(LoanStatus.APPROVED);
+            application.setApprovedAmount(application.getRequestedAmount());
+        } else {
+            application.setStatus(LoanStatus.REJECTED);
+            application.setRejectionReason("Credit score too low");
         }
         
-        return loanApplicationRepository.save(loanApplication);
+        // Save updated application
+        LoanApplication updatedApplication = loanApplicationRepository.save(application);
+        log.info("Loan application {} processed with status: {}", 
+                updatedApplication.getId(), updatedApplication.getStatus());
+        
+        return updatedApplication;
     }
 
     /**
-     * Get loan application status
+     * Get all loan applications for a customer
      * @param customerNumber customer's unique identifier
      * @return list of loan applications
      */

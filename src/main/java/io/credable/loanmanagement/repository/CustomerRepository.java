@@ -21,5 +21,5 @@ public interface CustomerRepository extends JpaRepository<Customer, String> {
      * @param customerNumber customer's unique identifier
      * @return true if customer is subscribed
      */
-    boolean existsByCustomerNumberAndIsSubscribedTrue(String customerNumber);
+    boolean existsByCustomerNumberAndSubscribedTrue(String customerNumber);
 } 

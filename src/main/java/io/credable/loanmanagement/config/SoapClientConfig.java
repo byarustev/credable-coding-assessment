@@ -32,14 +32,14 @@ public class SoapClientConfig {
     @Bean
     public Jaxb2Marshaller kycMarshaller() {
         Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
-        marshaller.setContextPath("io.credable.loanmanagement.client.kyc.wsdl");
+        marshaller.setContextPath("io.credable.loanmanagement.client.wsdl");
         return marshaller;
     }
 
     @Bean
     public Jaxb2Marshaller transactionMarshaller() {
         Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
-        marshaller.setContextPath("io.credable.loanmanagement.client.transaction.wsdl");
+        marshaller.setContextPath("io.credable.loanmanagement.client.wsdl");
         return marshaller;
     }
 
