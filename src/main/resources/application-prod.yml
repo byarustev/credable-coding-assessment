@@ -1,0 +1,50 @@
+spring:
+  application:
+    name: loan-management
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    driverClassName: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+  h2:
+    console:
+      enabled: false
+
+server:
+  port: ${PORT:8080}
+
+# CBS Integration Configuration
+cbs:
+  kyc:
+    url: ${CBS_KYC_URL}
+    username: ${CBS_KYC_USERNAME}
+    password: ${CBS_KYC_PASSWORD}
+  transaction:
+    url: ${CBS_TRX_URL}
+    username: ${CBS_TRX_USERNAME}
+    password: ${CBS_TRX_PASSWORD}
+
+# Scoring Engine Configuration
+scoring:
+  base-url: ${SCORING_BASE_URL}
+  max-retries: ${SCORING_MAX_RETRIES:3}
+  retry-delay: ${SCORING_RETRY_DELAY:1000}
+  client-token: ${SCORING_CLIENT_TOKEN}
+
+# Security Configuration
+security:
+  api:
+    username: ${API_USERNAME}
+    password: ${API_PASSWORD}
+
+# Swagger Configuration
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false 

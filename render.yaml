@@ -1,0 +1,42 @@
+services:
+  - type: web
+    name: loan-management
+    env: docker
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: SERVER_PORT
+        value: 8080
+      - key: SPRING_DATASOURCE_URL
+        sync: false
+      - key: SPRING_DATASOURCE_USERNAME
+        sync: false
+      - key: SPRING_DATASOURCE_PASSWORD
+        sync: false
+      - key: CBS_KYC_URL
+        sync: false
+      - key: CBS_KYC_USERNAME
+        sync: false
+      - key: CBS_KYC_PASSWORD
+        sync: false
+      - key: CBS_TRX_URL
+        sync: false
+      - key: CBS_TRX_USERNAME
+        sync: false
+      - key: CBS_TRX_PASSWORD
+        sync: false
+      - key: SCORING_BASE_URL
+        sync: false
+      - key: SCORING_CLIENT_TOKEN
+        sync: false
+      - key: API_USERNAME
+        sync: false
+      - key: API_PASSWORD
+        sync: false
+      - key: SPRING_JPA_HIBERNATE_DDL_AUTO
+        value: update
+      - key: SPRING_JPA_SHOW_SQL
+        value: false
+      - key: SPRING_H2_CONSOLE_ENABLED
+        value: false 

@@ -2,7 +2,10 @@
 guide/
 
 .env
+.env.*
+!.env.template
 .vscode/
+
 # Maven
 target/
 *.jar
@@ -25,3 +28,6 @@ logs/
 # OS specific
 .DS_Store
 Thumbs.db
+
+# Production configuration
+src/main/resources/application-prod.properties
