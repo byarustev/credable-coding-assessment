@@ -34,4 +34,19 @@ cbs:
 scoring:
   base-url: https://scoringtest.credable.io/api/v1
   max-retries: 3
-  retry-delay: 1000 # in milliseconds 
+  retry-delay: 1000 # in milliseconds
+  client-token: ${SCORING_CLIENT_TOKEN:your-client-token}
+
+# Security Configuration
+security:
+  api:
+    username: ${API_USERNAME:apiuser}
+    password: ${API_PASSWORD:apipassword}
+
+# Swagger Configuration
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method 
